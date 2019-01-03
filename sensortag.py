@@ -46,13 +46,8 @@ def hexTemp2C(raw_temperature):
 	ambient_temp_celsius = float(ambient_temp_int) * 0.03125 # Convert to Celsius based on info from TI
 	IR_temp_celsius = float(IR_temp_int)*0.03125
 	ambient_temp_fahrenheit = (ambient_temp_celsius * 1.8) + 32 # Convert to Fahrenheit
-	
-	print "INFO: IR Celsius:    %f" % IR_temp_celsius
-	print "INFO: Ambient Celsius:    %f" % ambient_temp_celsius
-	#print "Fahrenheit: %f" % ambient_temp_fahrenheit		
+		
 	return (IR_temp_celsius, ambient_temp_celsius)
-	
-	
 	
 def hexLum2Lux(raw_luminance):
 	
@@ -71,8 +66,6 @@ def hexHum2RelHum(raw_humidity):
     humidity = float((int(raw_humidity,16)))/65536*100 #get the int value from hex and divide as per Dataset.    
     return humidity
     
-    
-    
 def hexPress2Press(raw_pressure):
 
     pressure = int(raw_pressure,16)
@@ -80,33 +73,30 @@ def hexPress2Press(raw_pressure):
     return pressure  
 
 def main():
-    global datalog
-    global barometer
     
     bluetooth_adr = sys.argv[1]
-    
+
     #print ('{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()))   
     print "INFO: starting.."
 
     tag  = SensorTag(bluetooth_adr) #pass the Bluetooth Address
-    
+
     """GETTING THE IR AND AMBIENT TEMPERATURE"""
     tag.char_write_cmd(0x24,01) #Enable temperature sensor
-	IR_temp_celsius, Ambient_temp_celsius = hexTemp2C(tag.char_read_hnd(0x21, "temperature")) #get the hex value and parse it to get Celcius
-		
+    IR_temp_celsius, Ambient_temp_celsius = hexTemp2C(tag.char_read_hnd(0x21, "temperature")) #get the hex value and parse it to get Celcius
+
     """GETTING THE LUMINANCE"""
     tag.char_write_cmd(0x44,01)
-    lux_luminance = hexLum2Lux(tag.char_read_hnd(0x41, "luminance"))	    
-      
+    lux_luminance = hexLum2Lux(tag.char_read_hnd(0x41, "luminance"))
+
     """GETTING THE HUMIDITY"""
     tag.char_write_cmd(0x2C,01)
-    rel_humidity = hexHum2RelHum(tag.char_read_hnd(0x29, "humidity"))	
-	
+    rel_humidity = hexHum2RelHum(tag.char_read_hnd(0x29, "humidity"))
+
     """GETTING THE Barometric Pressure"""
     tag.char_write_cmd(0x34,01)
     barPressure = hexPress2Press(tag.char_read_hnd(0x31, "barPressure"))
-    
-    #tag.notification_loop()
+
     
 if __name__ == "__main__":
     main()
