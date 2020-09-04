@@ -92,11 +92,11 @@ def main():
 
     """GETTING THE HUMIDITY"""
     tag.char_write_cmd(0x3C,01)
-    rel_humidity = hexHum2RelHum(tag.char_read_hnd(0x3A, "humidity"))
+    rel_humidity = hexHum2RelHum(tag.char_read_hnd(0x3B, "humidity"))
     print("Relative humidity "+str(rel_humidity))
     """GETTING THE Barometric Pressure"""
     tag.char_write_cmd(0x52,01)
-    barPressure = hexPress2Press(tag.char_read_hnd(0x50, "barPressure"))
+    barPressure = hexPress2Press(tag.char_read_hnd(0x51, "barPressure"))
     print("pressure: "+str(barPressure))
     
 if __name__ == "__main__":
