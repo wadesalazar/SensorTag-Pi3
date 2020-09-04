@@ -84,8 +84,8 @@ def main():
     """GETTING THE IR AND AMBIENT TEMPERATURE"""
     tag.char_write_cmd(0x29,01) #Enable temperature sensor
     IR_temp_celsius, Ambient_temp_celsius = hexTemp2C(tag.char_read_hnd(0x25, "temperature")) #get the hex value and parse it to get Celcius
-    print("IR Temp: " + IR_temp_celsius)
-    print("Ambient Temp: "+ Ambient_temp_celsius)
+    print("IR Temp: " + str(IR_temp_celsius))
+    print("Ambient Temp: "+ str(Ambient_temp_celsius))
     """GETTING THE LUMINANCE"""
     #tag.char_write_cmd(0x44,01)
     #lux_luminance = hexLum2Lux(tag.char_read_hnd(0x41, "luminance"))
@@ -93,11 +93,11 @@ def main():
     """GETTING THE HUMIDITY"""
     tag.char_write_cmd(0x3C,01)
     rel_humidity = hexHum2RelHum(tag.char_read_hnd(0x3A, "humidity"))
-    print("Relative humidity "+rel_humidity)
+    print("Relative humidity "+str(rel_humidity))
     """GETTING THE Barometric Pressure"""
     tag.char_write_cmd(0x52,01)
     barPressure = hexPress2Press(tag.char_read_hnd(0x50, "barPressure"))
-    print("pressure: "+barPressure)
+    print("pressure: "+str(barPressure))
     
 if __name__ == "__main__":
     main()
